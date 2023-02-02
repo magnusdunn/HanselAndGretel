@@ -4,16 +4,14 @@
 
   1. Home Sreen 
     a. Start a journey
-    b. add friend
     c. See old journeys
   
   2. Journey Protocal
     a. Can start a journey with friends (i.e able to see friends' locations) -- See 2.1
-      * Must be signed/have account to add friends (Maybe not needed)
     b. Can Start a solo journey -- see 2.2
   
     2.1. Team Journey 
-      a. View to add initial teammates
+      a. View to add initial teammates using unique code
       * When inital team is set go to main team journey view
       b. Main team journy view
         * has a map background
@@ -28,6 +26,11 @@
     ** Unquie room codes
     
     ** Maybe use audio for directions
+
+    Trouble shooting for RN:
+    Ruby version is wrong - I used "rvm use 2.7.6" to switch ruby version
+
+    Starting app - npx react-native run-ios
     
     
    

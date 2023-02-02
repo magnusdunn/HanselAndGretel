@@ -28,6 +28,7 @@
     ** Maybe use audio for directions
 
     Trouble shooting for RN:
+    Installing ruby error - use arch -x86_64 rvm install 2.7.6
     Ruby version is wrong - I used "rvm use 2.7.6" to switch ruby version
 
     Starting app - npx react-native run-ios

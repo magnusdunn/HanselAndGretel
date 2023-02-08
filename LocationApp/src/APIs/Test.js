@@ -14,7 +14,6 @@ export const usersCollection = firestore()
                 console.log('QueryTest1: ', documentSnapshot.id,
                     documentSnapshot.data());
             });
-    })
-    ;
+    });
 
 

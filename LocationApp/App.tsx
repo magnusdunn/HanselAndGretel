@@ -14,29 +14,16 @@ import {
 import { styles } from './src/Context/Styles';
 import firestore from '@react-native-firebase/firestore';
 
-// import { usersCollection }  from './src/APIs/Test';
+import { usersCollection }  from './src/APIs/Test';
 
 function App() {
 
-  // usersCollection;
-  // console.log(usersCollection);
-  const usersCollection = firestore()
-    .collection('Test')
-    .get()
-    .then(collectionSnapshot => {
-        console.log('Test: ', collectionSnapshot.size);
-        collectionSnapshot
-            .forEach(documentSnapshot => {
-                console.log('QueryTest1: ', documentSnapshot.id,
-                    documentSnapshot.data());
-            });
-    });
-    console.log(usersCollection)
+    const u = usersCollection;
   return (
 
     <View style = {styles.text}>
       <Text>
-        Location App
+        Test
       </Text>
     </View>
   );

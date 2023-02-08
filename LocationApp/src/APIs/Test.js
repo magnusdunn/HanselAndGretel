@@ -1,9 +1,20 @@
 import firebase from "@react-native-firebase/app";
+import firestore from '@react-native-firebase/firestore';
+// import { firestore } from "firebase-admin";
 
-export async function test(){
-    var data = await firebase.firestore()
+// export const usersCollection = firestore().collection('Test');
+
+export const usersCollection = firestore()
     .collection('Test')
-    .get();
+    .get()
+    .then(collectionSnapshot => {
+        console.log('Test: ', collectionSnapshot.size);
+        collectionSnapshot
+            .forEach(documentSnapshot => {
+                console.log('QueryTest1: ', documentSnapshot.id,
+                    documentSnapshot.data());
+            });
+    })
+    ;
 
-    console.log(data);
-};
+

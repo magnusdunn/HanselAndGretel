@@ -12,12 +12,27 @@ import {
 } from 'react-native';
 
 import { styles } from './src/Context/Styles';
-import { test } from './src/APIs/Test';
+import firestore from '@react-native-firebase/firestore';
+
+// import { usersCollection }  from './src/APIs/Test';
 
 function App() {
 
-  test()
-  
+  // usersCollection;
+  // console.log(usersCollection);
+  const usersCollection = firestore()
+    .collection('Test')
+    .get()
+    .then(collectionSnapshot => {
+        console.log('Test: ', collectionSnapshot.size);
+        collectionSnapshot
+            .forEach(documentSnapshot => {
+                console.log('QueryTest1: ', documentSnapshot.id,
+                    documentSnapshot.data());
+            });
+    })
+    ;
+    console.log(usersCollection)
   return (
 
     <View style = {styles.text}>

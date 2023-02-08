@@ -30,8 +30,7 @@ function App() {
                 console.log('QueryTest1: ', documentSnapshot.id,
                     documentSnapshot.data());
             });
-    })
-    ;
+    });
     console.log(usersCollection)
   return (
 

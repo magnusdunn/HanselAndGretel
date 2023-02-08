@@ -31,6 +31,10 @@
     Installing ruby error - use arch -x86_64 rvm install 2.7.6
     Ruby version is wrong - I used "rvm use 2.7.6" to switch ruby version
 
+    For Updating Dependencies for cloned project:
+    in ./LocationApp run "npm i"
+    then in ./LocationApp/ios run "pod install --repo-update"
+
     Starting app - npx react-native run-ios
     
     

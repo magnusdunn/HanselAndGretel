@@ -9,26 +9,16 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import React from 'react';
 import type { PropsWithChildren } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { styles } from './src/Context/Styles';
+import firestore from '@react-native-firebase/firestore';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import { usersCollection }  from './src/APIs/Test';
+
+function App() {
 
 const styles = StyleSheet.create({
   map: {

@@ -5,7 +5,9 @@
  * @format
  */
 
-import React, {Component} from 'react';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import React from 'react';
+import type { PropsWithChildren } from 'react';
 import {
   Text,
   View,
@@ -18,14 +20,25 @@ import { usersCollection }  from './src/APIs/Test';
 
 function App() {
 
-    const u = usersCollection;
-  return (
+const styles = StyleSheet.create({
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
 
-    <View style = {styles.text}>
-      <Text>
-        Test
-      </Text>
-    </View>
+function App(): JSX.Element {
+
+  return (
+    <MapView
+      provider={PROVIDER_GOOGLE}
+      style={styles.map}
+      initialRegion={{
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }}
+    />
   );
 }
 

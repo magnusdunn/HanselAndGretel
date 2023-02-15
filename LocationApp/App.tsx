@@ -11,14 +11,13 @@ import type { PropsWithChildren } from 'react';
 import {
   Text,
   View,
+  StyleSheet
 } from 'react-native';
 
-import { styles } from './src/Context/Styles';
+// import { styles } from './src/Context/Styles';
 import firestore from '@react-native-firebase/firestore';
 
 import { usersCollection }  from './src/APIs/Test';
-
-function App() {
 
 const styles = StyleSheet.create({
   map: {

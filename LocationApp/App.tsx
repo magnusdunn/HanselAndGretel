@@ -17,7 +17,8 @@ import {
 // import { styles } from './src/Context/Styles';
 import firestore from '@react-native-firebase/firestore';
 
-import { usersCollection }  from './src/APIs/Test';
+import { usersCollection }  from './src/APIs/GetterAPI';
+import push from './src/APIs/PushAPI';
 
 const styles = StyleSheet.create({
   map: {
@@ -26,7 +27,8 @@ const styles = StyleSheet.create({
 });
 
 function App(): JSX.Element {
-
+  // console.log(usersCollection);
+  // push();
   return (
     <MapView
       provider={PROVIDER_GOOGLE}

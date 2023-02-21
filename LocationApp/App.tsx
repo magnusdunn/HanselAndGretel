@@ -17,29 +17,16 @@ import {
 // import { styles } from './src/Context/Styles';
 import firestore from '@react-native-firebase/firestore';
 
-import { usersCollection }  from './src/APIs/GetterAPI';
+import { usersCollection } from './src/APIs/GetterAPI';
 import push from './src/APIs/PushAPI';
+import ShowMap from './src/Maps/ShowMap';
 
-const styles = StyleSheet.create({
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-});
 
 function App(): JSX.Element {
   // console.log(usersCollection);
   // push();
   return (
-    <MapView
-      provider={PROVIDER_GOOGLE}
-      style={styles.map}
-      initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }}
-    />
+    <ShowMap />
   );
 }
 

@@ -38,7 +38,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>NSLocationAlwaysUsageDescription</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

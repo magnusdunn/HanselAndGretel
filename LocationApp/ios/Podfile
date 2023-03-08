@@ -33,6 +33,11 @@ target 'LocationApp' do
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
   
+  # Permissions path
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
+  
   config = use_native_modules!
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true

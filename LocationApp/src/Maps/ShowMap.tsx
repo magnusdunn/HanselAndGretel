@@ -8,78 +8,14 @@ import {
     Alert,
     Platform,
     Dimensions,
-    Button
+    Button,
+    TouchableOpacity,
 } from 'react-native';
 import MapView,
-{ PROVIDER_GOOGLE, Marker, Callout, Polygon, Circle }
+{ PROVIDER_GOOGLE, MarkerAnimated, Callout, Polygon, Circle }
     from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { styles } from '../Context/Styles';
-
-// const ShowMap = () => {
-
-//     const [location, setLocation] = useState({
-//         latitude: 0,
-//         longitude: 0,
-//         latitudeDelta: 0.0922,
-//         longitudeDelta: 0.0421,
-//     });
-//     const [markerLocation, setMarkerLocation] = useState({
-//         latitude: 0,
-//         longitude: 0,
-//     });
-//     const intervalRef = useRef(0);
-
-//     useEffect(() => {
-//         const watchID = Geolocation.watchPosition(
-//             position => {
-//                 setLocation({
-//                     latitude: position.coords.latitude,
-//                     longitude: position.coords.longitude,
-//                     latitudeDelta: 0.0922,
-//                     longitudeDelta: 0.0421,
-//                 });
-//                 if (intervalRef.current && intervalRef.current !== 0) {
-//                     clearInterval(intervalRef.current);
-//                 }
-//                 if (!intervalRef.current && intervalRef.current !== 0) {
-//                     intervalRef.current = setInterval(() => {
-//                         setMarkerLocation(prevState => ({
-//                             latitude: position.coords.latitude,
-//                             longitude: position.coords.longitude,
-//                         }));
-//                     }, 10000); // 10 seconds interval
-//                 }
-//             },
-//             error => {
-//                 console.log(error);
-//             },
-//             { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000, distanceFilter: 10 },
-//         );
-//         return () => {
-//             Geolocation.clearWatch(watchID);
-//             clearInterval(intervalRef.current);
-//         }
-//     }, []);
-
-//     return (
-//         <View style={styles.map}>
-//             {location && (
-//                 <MapView
-//                     provider={PROVIDER_GOOGLE}
-//                     style={styles.map}
-//                     showsUserLocation={true}
-//                     region={location}>
-//                 </MapView>
-//             )}
-//             {markerLocation && (
-//                 <Marker coordinate={markerLocation} />
-//             )}
-//         </View>
-//     );
-// };
-
-// export default ShowMap;
 
 
 const ShowMap = () => {
@@ -87,28 +23,46 @@ const ShowMap = () => {
     const [location, setLocation] = useState({
         latitude: 0,
         longitude: 0,
-        latitudeDelta: 0.0922,
+        latitudeDelta: 0.0522,
         longitudeDelta: 0.0421,
     });
     const [markerLocations, setMarkerLocations] = useState([] as any[]);
-    const intervalRef = useRef(0);
+    const [lastMarkerTime, setLastMarkerTime] = useState(0);
+    const [followingUser, setFollowingUser] = useState(true);
+    const mapViewRef = useRef<MapView | null>(null);
+    const markerRef = useRef<(typeof MarkerAnimated | null)[]>([]);
+    const startInterval = () => {
+        const intervalId = setInterval(() => {
+            if (markerLocations.length > 0) {
+                const lastMarkerIndex = markerLocations.length - 1;
+            }
+        }, 5000);
+        return intervalId;
+    };
 
     useEffect(() => {
         const watchID = Geolocation.watchPosition(
             position => {
-                const newLocation = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                };
-                setLocation(newLocation);
-                if (!intervalRef.current) {
-                    intervalRef.current = setInterval(() => {
-                        setMarkerLocations(prevState => [...prevState, newLocation]);
-                    }, 10000);
-                } else {
-                    setMarkerLocations(prevState => [...prevState, newLocation]);
+                const currentTime = Date.now();
+                if (currentTime - lastMarkerTime >= 5000) {
+                    const newLocation = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        latitudeDelta: location.latitudeDelta,
+                        longitudeDelta: location.longitudeDelta,
+                    };
+                    setLocation(newLocation);
+                    if (followingUser) {
+                        mapViewRef.current?.animateToRegion(newLocation, 500);
+                    }
+                    setMarkerLocations(prevState => [
+                        ...prevState,
+                        {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                        },
+                    ]);
+                    setLastMarkerTime(currentTime);
                 }
             },
             error => console.log(error),
@@ -116,27 +70,110 @@ const ShowMap = () => {
                 enableHighAccuracy: true,
                 timeout: 10000,
                 maximumAge: 1000,
-                distanceFilter: 500
+                distanceFilter: 50,
             }
         );
 
+        const intervalId = startInterval();
+
         return () => {
             Geolocation.clearWatch(watchID);
-            clearInterval(intervalRef.current);
+            clearInterval(intervalId);
         };
-    }, []);
+    }, [followingUser, lastMarkerTime, location.latitudeDelta, location.longitudeDelta, markerLocations]);
+
+    const handleCenterPress = () => {
+        if (mapViewRef.current) {
+            mapViewRef.current.animateToRegion(location, 250);
+            setFollowingUser(true);
+        }
+    };
+
+    const renderMarkers = () => {
+        return markerLocations.map((marker, index) => {
+
+            return (
+                <MarkerAnimated
+                    key={index}
+                    ref={markerRef}
+                    coordinate={marker}
+                />
+            );
+        });
+    };
+
+    const carZoom = () => {
+        setLocation({
+            ...location,
+            latitudeDelta: 0.0522,
+            longitudeDelta: 0.0221,
+        });
+        if (mapViewRef.current) {
+            mapViewRef.current.animateToRegion(location, 250);
+        }
+    };
+
+    const bikeZoom = () => {
+        setLocation({
+            ...location,
+            latitudeDelta: 0.0272,
+            longitudeDelta: 0.0101,
+        });
+        if (mapViewRef.current) {
+            mapViewRef.current.animateToRegion(location, 250);
+        }
+    }
+
+    const walkZoom = () => {
+        setLocation({
+            ...location,
+            latitudeDelta: 0.0122,
+            longitudeDelta: 0.0071,
+        });
+        if (mapViewRef.current) {
+            mapViewRef.current.animateToRegion(location, 250);
+        }
+    }
+
 
     return (
-        <View style={styles.map}>
-            <MapView
-                provider={PROVIDER_GOOGLE}
-                style={styles.map}
-                showsUserLocation={true}
-                region={location}>
-                {markerLocations.map((marker, index) => (
-                    <Marker key={index} coordinate={marker} />
-                ))}
-            </MapView>
+        <View style={styles.container}>
+            <View style={styles.mapContainer}>
+                <MapView
+                    provider={PROVIDER_GOOGLE}
+                    style={styles.map}
+                    showsUserLocation={true}
+                    followsUserLocation={followingUser}
+                    ref={mapViewRef}
+                    onPanDrag={() => setFollowingUser(false)}
+                    initialRegion={location}
+                >
+                    {renderMarkers()}
+                </MapView>
+            </View>
+            <View style={styles.centerButton}>
+                <Button title="Center" onPress={handleCenterPress} />
+            </View>
+            <View style={styles.carButton}>
+                <TouchableOpacity onPress={carZoom}>
+                    <Image
+                        style={styles.buttonIcon}
+                        source={require('../Images/car.png')}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={bikeZoom}>
+                    <Image
+                        style={styles.buttonIcon}
+                        source={require('../Images/bike.png')}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={walkZoom}>
+                    <Image
+                        style={styles.buttonIcon}
+                        source={require('../Images/walk.png')}
+                    />
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };

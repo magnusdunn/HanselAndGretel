@@ -1,18 +1,12 @@
 import React, { Component, useState, useEffect, useRef } from 'react';
 import {
-    SafeAreaView,
-    StyleSheet,
     View,
-    Text,
     Image,
-    Alert,
-    Platform,
-    Dimensions,
     Button,
     TouchableOpacity,
 } from 'react-native';
 import MapView,
-{ PROVIDER_GOOGLE, MarkerAnimated, Callout, Polygon, Circle }
+{ PROVIDER_GOOGLE, MarkerAnimated }
     from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { styles } from '../Context/Styles';
@@ -31,6 +25,9 @@ const ShowMap = () => {
     const [followingUser, setFollowingUser] = useState(true);
     const mapViewRef = useRef<MapView | null>(null);
     const markerRef = useRef<(typeof MarkerAnimated | null)[]>([]);
+    const [clearMarkers, setClearMarkers] = useState(false);
+    const [stopMarkers, setStopMarkers] = useState(false);
+    const [startMarkers, setStartMarkers] = useState(false);
     const startInterval = () => {
         const intervalId = setInterval(() => {
             if (markerLocations.length > 0) {
@@ -51,17 +48,21 @@ const ShowMap = () => {
                         latitudeDelta: location.latitudeDelta,
                         longitudeDelta: location.longitudeDelta,
                     };
-                    setLocation(newLocation);
+                    if (startMarkers) {
+                        setLocation(newLocation);
+                    }
                     if (followingUser) {
                         mapViewRef.current?.animateToRegion(newLocation, 500);
                     }
-                    setMarkerLocations(prevState => [
-                        ...prevState,
-                        {
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                        },
-                    ]);
+                    if (startMarkers) {
+                        setMarkerLocations(prevState => [
+                            ...prevState,
+                            {
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude,
+                            },
+                        ]);
+                    }
                     setLastMarkerTime(currentTime);
                 }
             },
@@ -89,17 +90,41 @@ const ShowMap = () => {
         }
     };
 
-    const renderMarkers = () => {
-        return markerLocations.map((marker, index) => {
+    const handleClearMarkersPress = () => {
+        setMarkerLocations([]);
+        setClearMarkers(true);
+    };
 
-            return (
-                <MarkerAnimated
-                    key={index}
-                    ref={markerRef}
-                    coordinate={marker}
-                />
-            );
-        });
+    const handleStartPress = () => {
+        setStopMarkers(false);
+        setStartMarkers(true);
+    };
+
+    const handleStopPress = () => {
+        setMarkerLocations([]);
+        setStopMarkers(true);
+        setStartMarkers(false);
+    }
+
+    const renderMarkers = () => {
+        if (clearMarkers) {
+            markerRef.current = [];
+            setClearMarkers(false);
+        }
+        if (stopMarkers) {
+            return;
+        }
+        if (startMarkers) {
+            return markerLocations.map((marker, index) => {
+                return (
+                    <MarkerAnimated
+                        key={index}
+                        ref={(ref: any) => markerRef.current[index] = ref}
+                        coordinate={marker}
+                    />
+                );
+            });
+        }
     };
 
     const carZoom = () => {
@@ -153,6 +178,15 @@ const ShowMap = () => {
             </View>
             <View style={styles.centerButton}>
                 <Button title="Center" onPress={handleCenterPress} />
+            </View>
+            <View style={styles.clearButton}>
+                <Button title="Clear" onPress={handleClearMarkersPress} />
+            </View>
+            <View style={styles.startButton}>
+                <Button title="Start" onPress={handleStartPress} />
+            </View>
+            <View style={styles.stopButton}>
+                <Button title="Stop" onPress={handleStopPress} />
             </View>
             <View style={styles.carButton}>
                 <TouchableOpacity onPress={carZoom}>

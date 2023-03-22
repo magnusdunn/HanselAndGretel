@@ -1,0 +1,21 @@
+{
+    "Head Collection": "Users",
+    "Documents": {
+        "User": "Username",
+        "Feilds": {
+            "Collection": "Trip",
+            "Documents": {
+                "TimeDate": "Timein that position",
+                "Fields": {
+                    "Latitude": "Latitude at that Time",
+                    "Longitude": "Longitude at that time"
+                },
+                "Users": "Users that are in that group",
+                "Feilds": {
+                    "User1": "list of users that have permision to access that data"
+                }
+            }
+        }
+    }
+}
+   

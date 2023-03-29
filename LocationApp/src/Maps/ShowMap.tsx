@@ -10,6 +10,7 @@ import MapView,
     from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { styles } from '../Context/Styles';
+import pushLocation from '../APIs/sendLocation'
 
 
 const ShowMap = () => {
@@ -41,6 +42,7 @@ const ShowMap = () => {
         const watchID = Geolocation.watchPosition(
             position => {
                 const currentTime = Date.now();
+                let i: number = 1;
                 if (currentTime - lastMarkerTime >= 5000) {
                     const newLocation = {
                         latitude: position.coords.latitude,
@@ -48,8 +50,13 @@ const ShowMap = () => {
                         latitudeDelta: location.latitudeDelta,
                         longitudeDelta: location.longitudeDelta,
                     };
+                    if (i < 2) {
+                        setLocation(newLocation);
+                        i++;
+                    }
                     if (startMarkers) {
                         setLocation(newLocation);
+                        pushLocation(newLocation.latitude, newLocation.longitude);
                     }
                     if (followingUser) {
                         mapViewRef.current?.animateToRegion(newLocation, 500);

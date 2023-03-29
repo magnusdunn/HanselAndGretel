@@ -7,7 +7,6 @@
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import React from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import type { PropsWithChildren } from 'react';
 import {
   Text,
@@ -21,37 +20,27 @@ import firestore from '@react-native-firebase/firestore';
 import { usersCollection } from './src/APIs/GetterAPI';
 import push from './src/APIs/PushAPI';
 import ShowMap from './src/Maps/ShowMap';
+import { getUID, setUID, removeItemValue } from './src/Memory/memoryAccess';
 
 
 function App(): JSX.Element {
   // console.log(usersCollection);
   // push();
   console.log(`Asyncstorage test`)
-  const _storeData = async () => {
-    try {
-      await AsyncStorage.setItem(
-        `uid`, 
-        `test`
-      );
-    } catch (error) {
-      console.log(`Error: ${error}`)
+  // removeItemValue('uid')
+  const getUser = async () => {
+    const result = await getUID();
+    console.log(result)
+    if(result === false){
+      setUID();
     }
-  };
-  const _retrieveData = async () => {
-      try {
-        const value = await AsyncStorage.getItem('uid');
-        if (value !== null) {
-          // We have data!!
-          console.log(value);
-        }
-        else{
-          console.log("No data");
-        }
-      } catch (error) {
-        console.log(`Error: ${error}`)
-      }
-  };
-    console.log(`test set: ${_retrieveData}`)
+    else{
+      console.log("uid set")
+    }
+
+  }
+  getUser();
+
   return (
     <ShowMap />
   );

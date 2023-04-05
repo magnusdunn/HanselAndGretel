@@ -13,16 +13,8 @@ import { styles } from '../Context/Styles';
 import pushLocation from '../APIs/sendLocation'
 
 
-<<<<<<< HEAD
 const ShowMap = ({ navigation }: { navigation: any }) => {
-=======
-type propsData = {
-    uid: Promise<string | undefined>;
-  };
->>>>>>> main
 
-const ShowMap = (props: propsData) => {
-    console.log("UID:", props.uid._j);
     const [location, setLocation] = useState({
         latitude: 0,
         longitude: 0,

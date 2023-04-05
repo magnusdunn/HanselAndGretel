@@ -13,7 +13,7 @@ import { styles } from '../Context/Styles';
 import pushLocation from '../APIs/sendLocation'
 
 
-const ShowMap = () => {
+const ShowMap = ({ navigation }: { navigation: any }) => {
 
     const [location, setLocation] = useState({
         latitude: 0,
@@ -28,7 +28,7 @@ const ShowMap = () => {
     const markerRef = useRef<(typeof MarkerAnimated | null)[]>([]);
     const [clearMarkers, setClearMarkers] = useState(false);
     const [stopMarkers, setStopMarkers] = useState(false);
-    const [startMarkers, setStartMarkers] = useState(false);
+    const [startMarkers, setStartMarkers] = useState(true);
     const startInterval = () => {
         const intervalId = setInterval(() => {
             if (markerLocations.length > 0) {
@@ -222,6 +222,9 @@ const ShowMap = () => {
                         source={require('../Images/walk.png')}
                     />
                 </TouchableOpacity>
+            </View>
+            <View style={styles.home}>
+                <Button title="Home" onPress={() => navigation.navigate("Home")} />
             </View>
         </View>
     );

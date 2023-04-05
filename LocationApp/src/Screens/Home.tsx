@@ -5,13 +5,14 @@ import {
     Text,
     StyleSheet,
     Image,
+    Button,
     TextInput,
     TouchableOpacity
 } from 'react-native';
 
 import TableItem from '../Components/TableItem';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     const data = [
         { title: 'Forest Park', subtitle: 'My Trip' },
@@ -22,14 +23,13 @@ const HomeScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.navBar}>
-                <Text style={styles.selectedNav}> Start a trip </Text>
-                <Text> Find friends </Text>
+                <Button title="Find Friends" onPress={() => navigation.navigate("Friends")} />
             </View>
             <View style={styles.textInputContainer}>
                 <TextInput placeholder='Where to...' />
             </View>
             <View style={{ width: '100%', height: 80 }} />
-            <TouchableOpacity onPress={() => { }} style={styles.button} >
+            <TouchableOpacity onPress={() => navigation.navigate("Map")} style={styles.button} >
                 <Text style={[styles.text, { color: 'white' }]}> Start trip </Text>
             </TouchableOpacity>
             <View style={styles.divider} />
@@ -46,6 +46,10 @@ const HomeScreen = () => {
                     ))
                 }
             </View>
+            <View style={styles.divider} />
+            <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.logout} >
+                <Text style={[styles.text, { color: 'white' }]}> Logout </Text>
+            </TouchableOpacity>
 
         </SafeAreaView>
     )
@@ -81,7 +85,7 @@ const styles = StyleSheet.create({
         paddingTop: 30,
     },
     header: {
-        fontFamily: 'Roboto-Medium',
+        fontFamily: 'Arial',
         fontSize: 15,
         fontWeight: '500',
         color: '#333',
@@ -106,6 +110,13 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
     },
+    logout: {
+        padding: 10,
+        borderRadius: 10,
+        marginBottom: 25,
+        backgroundColor: 'red',
+        top: 230,
+    }
 });
 
 export default HomeScreen

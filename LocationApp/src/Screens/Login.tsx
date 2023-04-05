@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     header: {
-        fontFamily: 'Roboto-Medium',
+        fontFamily: 'Arial',
         fontSize: 28,
         fontWeight: '500',
         color: '#333',

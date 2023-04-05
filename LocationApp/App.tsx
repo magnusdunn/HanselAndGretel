@@ -39,11 +39,12 @@ const App = () => {
           component={HomeScreen}
           options={{ headerShown: false }}
         />
-        {/* <Stack.Screen name="Friends"
+        <Stack.Screen name="Friends"
           component={FriendsScreen}
-        /> */}
+        />
         <Stack.Screen name="Map"
           component={ShowMap}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

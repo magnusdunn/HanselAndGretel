@@ -54,6 +54,11 @@ export const styles = StyleSheet.create({
         height: 45,
         width: 45,
         marginRight: 3,
+    },
+
+    home: {
+        alignSelf: 'flex-end',
+        top: 600,
     }
 })
 

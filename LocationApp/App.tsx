@@ -30,7 +30,7 @@ function App(): JSX.Element {
   // removeItemValue('uid')
   const getUser = async () => {
     var result = await getUID();
-    console.log(result)
+    // console.log(result)
     if(result === false){
       result = await setUID();
     }
@@ -44,10 +44,9 @@ function App(): JSX.Element {
   const uid = getUser().then((data) => {
     return data;
   });
-  console.log(typeof uid )
 
   return (
-    <ShowMap data = {uid}/>
+    <ShowMap uid = {uid}/>
   );
 }
 

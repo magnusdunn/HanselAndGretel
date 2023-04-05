@@ -21,5 +21,5 @@ export default function pushLocation(lat, lon) {
     })
     .catch(error => {
         console.log(`Error in pushing location to database. Error ${error}`)
-    })
+    }) 
 };

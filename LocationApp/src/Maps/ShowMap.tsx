@@ -13,12 +13,8 @@ import { styles } from '../Context/Styles';
 import pushLocation from '../APIs/sendLocation'
 
 
-type propsData = {
-    uid: Promise<string | undefined>;
-  };
+const ShowMap = ({ navigation }: { navigation: any }) => {
 
-const ShowMap = (props: propsData) => {
-    console.log("UID:", props.uid._j);
     const [location, setLocation] = useState({
         latitude: 0,
         longitude: 0,
@@ -32,7 +28,7 @@ const ShowMap = (props: propsData) => {
     const markerRef = useRef<(typeof MarkerAnimated | null)[]>([]);
     const [clearMarkers, setClearMarkers] = useState(false);
     const [stopMarkers, setStopMarkers] = useState(false);
-    const [startMarkers, setStartMarkers] = useState(false);
+    const [startMarkers, setStartMarkers] = useState(true);
     const startInterval = () => {
         const intervalId = setInterval(() => {
             if (markerLocations.length > 0) {
@@ -112,7 +108,7 @@ const ShowMap = (props: propsData) => {
     };
 
     const handleStopPress = () => {
-        setMarkerLocations([]);
+        // setMarkerLocations([]);
         setStopMarkers(true);
         setStartMarkers(false);
     }
@@ -123,7 +119,15 @@ const ShowMap = (props: propsData) => {
             setClearMarkers(false);
         }
         if (stopMarkers) {
-            return;
+            return markerLocations.map((marker, index) => {
+                return (
+                    <MarkerAnimated
+                        key={index}
+                        ref={(ref: any) => markerRef.current[index] = ref}
+                        coordinate={marker}
+                    />
+                );
+            });
         }
         if (startMarkers) {
             return markerLocations.map((marker, index) => {
@@ -218,6 +222,9 @@ const ShowMap = (props: propsData) => {
                         source={require('../Images/walk.png')}
                     />
                 </TouchableOpacity>
+            </View>
+            <View style={styles.home}>
+                <Button title="Home" onPress={() => navigation.navigate("Home")} />
             </View>
         </View>
     );

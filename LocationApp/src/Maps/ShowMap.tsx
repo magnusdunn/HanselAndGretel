@@ -18,8 +18,8 @@ import Geolocation from '@react-native-community/geolocation';
 import { styles } from '../Context/Styles';
 
 
-const ShowMap = () => {
-
+const ShowMap = (props) => {
+    console.log(props.data._j);
     const [location, setLocation] = useState({
         latitude: 0,
         longitude: 0,

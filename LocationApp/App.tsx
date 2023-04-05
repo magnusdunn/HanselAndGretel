@@ -29,20 +29,25 @@ function App(): JSX.Element {
   console.log(`Asyncstorage test`)
   // removeItemValue('uid')
   const getUser = async () => {
-    const result = await getUID();
+    var result = await getUID();
     console.log(result)
     if(result === false){
-      setUID();
+      result = await setUID();
     }
     else{
       console.log("uid set")
     }
 
+    return result;
+
   }
-  getUser();
+  const uid = getUser().then((data) => {
+    return data;
+  });
+  console.log(typeof uid )
 
   return (
-    <ShowMap />
+    <ShowMap data = {uid}/>
   );
 }
 

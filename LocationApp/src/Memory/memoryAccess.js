@@ -10,6 +10,7 @@ export async function setUID()  {
             `uid`, 
             `${id}`
         );
+        return id;
     } catch (error) {
       console.log(`Error: ${error}`)
     }

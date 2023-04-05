@@ -22,9 +22,21 @@ export const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
     },
 
+    clearButton: {
+        alignSelf: 'flex-end',
+    },
+
+    startButton: {
+        alignSelf: 'flex-end',
+    },
+
+    stopButton: {
+        alignSelf: 'flex-end',
+    },
+
     centerButton: {
         alignSelf: 'flex-end',
-        marginTop: -700,
+        marginTop: -600,
         // position: 'absolute',
         borderStyle: 'solid',
     },

@@ -16,19 +16,38 @@ import {
 
 // import { styles } from './src/Context/Styles';
 import firestore from '@react-native-firebase/firestore';
-
 import { usersCollection } from './src/APIs/GetterAPI';
 import push from './src/APIs/PushAPI';
+import HomeScreen from './src/Screens/Home';
+import FriendsScreen from './src/Screens/FindFriend';
 import ShowMap from './src/Maps/ShowMap';
+import LoginScreen from './src/Screens/Login';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+const Stack = createNativeStackNavigator();
 
-function App(): JSX.Element {
-  // console.log(usersCollection);
-  // push();
+const App = () => {
   return (
-    <ShowMap />
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        {/* <Stack.Screen name="Friends"
+          component={FriendsScreen}
+        /> */}
+        <Stack.Screen name="Map"
+          component={ShowMap}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
-
+};
 
 export default App;

@@ -108,7 +108,7 @@ const ShowMap = () => {
     };
 
     const handleStopPress = () => {
-        setMarkerLocations([]);
+        // setMarkerLocations([]);
         setStopMarkers(true);
         setStartMarkers(false);
     }
@@ -119,7 +119,15 @@ const ShowMap = () => {
             setClearMarkers(false);
         }
         if (stopMarkers) {
-            return;
+            return markerLocations.map((marker, index) => {
+                return (
+                    <MarkerAnimated
+                        key={index}
+                        ref={(ref: any) => markerRef.current[index] = ref}
+                        coordinate={marker}
+                    />
+                );
+            });
         }
         if (startMarkers) {
             return markerLocations.map((marker, index) => {

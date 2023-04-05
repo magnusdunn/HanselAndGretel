@@ -19,23 +19,10 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
             <View style={styles.loginContainer}>
                 <Text style={styles.header}>Login</Text>
                 <View style={styles.textInputContainer}>
-                    <TextInput placeholder='Email' />
-                </View>
-                <View style={[styles.textInputContainer, { flexDirection: 'row' }]}>
-                    <TextInput
-                        placeholder='Password'
-                        style={{ flex: 1, paddingVertical: 0 }}
-                        secureTextEntry={true}
-                    />
-                    <TouchableOpacity onPress={() => { }}>
-                        <Text style={{ color: 'blue', fontWeight: '700' }}>Forgot?</Text>
-                    </TouchableOpacity>
+                    <TextInput placeholder='Username' />
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate("Home")} style={[styles.button, styles.loginButton]} >
                     <Text style={[styles.text, styles.loginText]}> Login </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { }} style={[styles.button, { backgroundColor: 'green' }]} >
-                    <Text style={[styles.text, styles.loginText]}> Log in/sign up with Google </Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

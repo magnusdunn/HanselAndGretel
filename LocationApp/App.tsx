@@ -20,13 +20,33 @@ import firestore from '@react-native-firebase/firestore';
 import { usersCollection } from './src/APIs/GetterAPI';
 import push from './src/APIs/PushAPI';
 import ShowMap from './src/Maps/ShowMap';
+import { getUID, setUID, removeItemValue } from './src/Memory/memoryAccess';
 
 
 function App(): JSX.Element {
   // console.log(usersCollection);
   // push();
+  console.log(`Asyncstorage test`)
+  // removeItemValue('uid')
+  const getUser = async () => {
+    var result = await getUID();
+    // console.log(result)
+    if(result === false){
+      result = await setUID();
+    }
+    else{
+      console.log("uid set")
+    }
+
+    return result;
+
+  }
+  const uid = getUser().then((data) => {
+    return data;
+  });
+
   return (
-    <ShowMap />
+    <ShowMap uid = {uid}/>
   );
 }
 

@@ -13,8 +13,12 @@ import { styles } from '../Context/Styles';
 import pushLocation from '../APIs/sendLocation'
 
 
-const ShowMap = () => {
+type propsData = {
+    uid: Promise<string | undefined>;
+  };
 
+const ShowMap = (props: propsData) => {
+    console.log("UID:", props.uid._j);
     const [location, setLocation] = useState({
         latitude: 0,
         longitude: 0,

@@ -6,18 +6,18 @@ import {
     StyleSheet
 } from 'react-native';
 
-export type itemProps = {
+type itemProps = {
     title: string;
     subtitle: string
 }
 
-const TableItem: React.FC<itemProps> = ({ item }) => {
+const TableItem = (props: itemProps) => {
     return (
         <View style={{ flexDirection: 'column', padding: 10, width: '100%' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
                 <View style={{ flexDirection: 'column', width: '85%' }}>
-                    <Text> {item.title} </Text>
-                    <Text style={{ fontSize: 10, color: '#ccc' }}> {item.subtitle} </Text>
+                    <Text> {props.title} </Text>
+                    <Text style={{ fontSize: 10, color: '#ccc' }}> {props.subtitle} </Text>
                 </View>
                 {/* <TouchableOpacity onPress={() => { }}>
                     <Image source={require('../assets/images/enterarrow.png')} style={styles.arrow} />

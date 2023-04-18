@@ -41,7 +41,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
                             style={{ flexDirection: 'row', borderTopWidth: 1, borderBottomWidth: 1 }}
                             key={index}
                         >
-                            <TableItem item={row} />
+                            <TableItem itemProps={row} />
                         </View>
                     ))
                 }

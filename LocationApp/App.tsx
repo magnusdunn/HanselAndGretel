@@ -31,7 +31,7 @@ const Stack = createNativeStackNavigator();
 function App(): JSX.Element {
   console.log(`Asyncstorage test`)
   // removeItemValue('uid')
-  const getUser = async () => {
+  async function getUser() {
     var result = await getUID();
     // console.log(result)
     if (result === false) {
@@ -44,9 +44,12 @@ function App(): JSX.Element {
     return result;
 
   }
-  const uid = getUser().then((data) => {
+
+  const uid = getUser().then(async (data) => {
+    // console.log(data);
     return data;
   });
+  console.log(uid)
 
   return (
     <NavigationContainer>
@@ -63,9 +66,11 @@ function App(): JSX.Element {
           component={FriendsScreen}
         />
         <Stack.Screen name="Map"
-          component={ShowMap}
+          // component={ShowMap}
           options={{ headerShown: false }}
-        />
+        >
+        {props => (<ShowMap {...props} userInfo = {uid} />)}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

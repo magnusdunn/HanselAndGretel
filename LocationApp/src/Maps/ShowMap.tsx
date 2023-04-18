@@ -12,9 +12,14 @@ import Geolocation from '@react-native-community/geolocation';
 import { styles } from '../Context/Styles';
 import pushLocation from '../APIs/sendLocation'
 
+type userInfo = {
+    uid: Promise<string>;
+  };
+//   | undefined
 
-const ShowMap = ({ navigation }: { navigation: any }) => {
 
+const ShowMap = ({ navigation }: { navigation: any }, props: userInfo) => {
+    console.log(props.uid);
     const [location, setLocation] = useState({
         latitude: 0,
         longitude: 0,

@@ -11,10 +11,24 @@ import MapView,
 import Geolocation from '@react-native-community/geolocation';
 import { styles } from '../Context/Styles';
 import pushLocation from '../APIs/sendLocation'
+import { getUID } from '../Memory/memoryAccess';
+
+type userProps = {
+    uid: Promise<string | undefined>;
+  };
+//   
 
 
-const ShowMap = ({ navigation }: { navigation: any }) => {
+const ShowMap = ({ navigation }: { navigation: any }, props: userProps) => {
+    // console.log(getUID());
+    const [uid, setUID] = useState("");
 
+    useEffect(() => {
+        const id = getUID().then((data) => {
+            setUID(String(data));
+        })
+    })
+    console.log(uid);
     const [location, setLocation] = useState({
         latitude: 0,
         longitude: 0,
@@ -56,7 +70,7 @@ const ShowMap = ({ navigation }: { navigation: any }) => {
                     }
                     if (startMarkers) {
                         setLocation(newLocation);
-                        pushLocation(newLocation.latitude, newLocation.longitude);
+                        pushLocation(uid, newLocation.latitude, newLocation.longitude, currentTime);
                     }
                     if (followingUser) {
                         mapViewRef.current?.animateToRegion(newLocation, 500);

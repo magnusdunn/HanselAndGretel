@@ -8,13 +8,14 @@ import firestore from '@react-native-firebase/firestore';
 // lat: latitude
 // lon: longitude
 // Will need to add path trip so location can be properly added
-export default function pushLocation(lat, lon) {
+export default function pushLocation(uid, lat, lon, time) {
     firestore()
-    .collection('Test/TestUser/TestTrip')
-    .doc("Location1")
+    .collection(`Users/${uid}/TestTrip`)
+    .doc(`${time}`)
     .set({
         Latitude: lat,
-        Longitude: lon
+        Longitude: lon,
+        Time: time
     })
     .then(() => {
         console.log('sent');

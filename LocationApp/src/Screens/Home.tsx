@@ -5,20 +5,65 @@ import {
     Text,
     StyleSheet,
     Image,
-    Button,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    FlatList,
+    ListRenderItem,
+    Button
 } from 'react-native';
 
-import TableItem from '../Components/TableItem';
+interface TripProps {
+    title: string,
+    subtitle: string
+}
+
+const data: TripProps[] = [
+    { title: 'Forest Park', subtitle: 'My Trip' },
+    { title: '6300 Enright Ave', subtitle: 'Joe' },
+    { title: 'Olin Library', subtitle: 'Magnus' }
+]
 
 const HomeScreen = ({ navigation }: { navigation: any }) => {
 
-    const data = [
-        { title: 'Forest Park', subtitle: 'My Trip' },
-        { title: '6300 Enright Ave', subtitle: 'Joe' },
-        { title: 'Olin Library', subtitle: 'Magnus' }
-    ]
+    const [tripData, setTripData] = useState<TripProps[]>([])
+
+    /*const fetchUsers = () => {
+        db = Firestore.firestore()
+        usersRef = collection(db, "Test/TestUser/trips")
+        collectionRef.get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    setMasterData(doc.data())
+            });
+        });
+        .catch((error) => {
+            console.log('Error getting documents: ', error);
+        });
+    }*/
+
+    useEffect(() => {
+        setTripData(data)
+    }, [])
+
+    const itemView: ListRenderItem<TripProps> = ({ item }) => {
+        return (
+            <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+                <View style={{ flexDirection: 'column', width: '85%' }}>
+                    <Text> {item.title} </Text>
+                    <Text style={{ fontSize: 10, color: '#ccc' }}> {item.subtitle} </Text>
+                </View>
+                <TouchableOpacity onPress={() => { }}>
+                    {/* <Image source={require('../assets/images/enterarrow.png')} style={styles.arrow} /> */}
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    const itemSeparator = () => {
+        return (
+            <View style={{ height: 0.5, width: '100%', backgroundColor: "white" }} />
+        );
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -35,18 +80,13 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
             <View style={styles.divider} />
             <View style={styles.tripsContainer}>
                 <Text style={styles.header}> Past trips </Text>
-                {
-                    data.map((row, index) => (
-                        <View
-                            style={{ flexDirection: 'row', borderTopWidth: 1, borderBottomWidth: 1 }}
-                            key={index}
-                        >
-                            <TableItem itemProps={row} />
-                        </View>
-                    ))
-                }
+                <FlatList
+                    data={tripData}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={itemView}
+                    ItemSeparatorComponent={itemSeparator}
+                />
             </View>
-            <View style={styles.divider} />
             <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.logout} >
                 <Text style={[styles.text, { color: 'white' }]}> Logout </Text>
             </TouchableOpacity>
@@ -110,12 +150,19 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
     },
+    arrow: {
+        width: 40,
+        height: 20,
+        resizeMode: 'contain',
+    },
+
     logout: {
         padding: 10,
         borderRadius: 10,
         marginBottom: 25,
         backgroundColor: 'red',
-        top: 230,
+        position: 'absolute',
+        bottom: 0,
     }
 });
 

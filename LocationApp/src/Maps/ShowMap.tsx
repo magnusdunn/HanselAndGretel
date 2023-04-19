@@ -12,6 +12,7 @@ import Geolocation from '@react-native-community/geolocation';
 import { styles } from '../Context/Styles';
 import pushLocation from '../APIs/sendLocation'
 import { getUID } from '../Memory/memoryAccess';
+import pushNewTrip from '../APIs/createTrip';
 
 type userProps = {
     uid: Promise<string | undefined>;
@@ -26,8 +27,9 @@ const ShowMap = ({ navigation }: { navigation: any }, props: userProps) => {
     useEffect(() => {
         const id = getUID().then((data) => {
             setUID(String(data));
+            pushNewTrip(uid)
         })
-    })
+    },[])
     console.log(uid);
     const [location, setLocation] = useState({
         latitude: 0,

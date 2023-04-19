@@ -29,25 +29,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
-  // console.log(`Asyncstorage test`)
-  // // removeItemValue('uid')
-  // const getUser = async () => {
-  //   var result = await getUID();
-  //   // console.log(result)
-  //   if (result === false) {
-  //     result = await setUID();
-  //   }
-  //   else {
-  //     console.log("uid set")
-  //   }
-
-  //   return result;
-
-  // }
-  // const uid = getUser().then((data) => {
-  //   return data;
-  // });
-  // removeItemValue('uid')
 
   return (
     <NavigationContainer>

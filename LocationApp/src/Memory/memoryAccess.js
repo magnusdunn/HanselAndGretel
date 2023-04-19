@@ -2,9 +2,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import createUser from '../APIs/createUser';
 
-export async function setUID()  {
+export async function setUID(userName)  {
     try {
-        const id = await createUser();
+        const id = await createUser(userName);
         console.log("uid from fb =", id);
         await AsyncStorage.setItem(
             `uid`, 

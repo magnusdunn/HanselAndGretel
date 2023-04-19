@@ -8,8 +8,42 @@ import {
     TextInput,
     TouchableOpacity
 } from 'react-native';
+import { usersCollection } from '../APIs/GetterAPI';
+import { getUID, setUID } from '../Memory/memoryAccess';
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
+
+    const [isUser, setIsUser] = useState(false);
+    const [userName, changeUserName] = useState("");
+
+    const getUser = async () => {
+        var result = await getUID();
+        // console.log(result)
+        if (result === false) {
+            setIsUser(false);
+        }
+        else {
+            setIsUser(true);
+            navigation.navigate('Home');
+            console.log("uid set")
+        }
+      }
+
+    useEffect(() => {
+        getUser();
+    }, []);
+
+    console.log(isUser);
+
+    function createAccount(text: String){
+        if (text === ""){
+            setUID("null");
+        }
+        else{
+            setUID(text);
+        }
+        navigation.navigate("Home");
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -17,12 +51,12 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
                 <Image source={require('../assets/images/background.jpg')} />
             </View> */}
             <View style={styles.loginContainer}>
-                <Text style={styles.header}>Login</Text>
+                <Text style={styles.header}>Create Acccount</Text>
                 <View style={styles.textInputContainer}>
-                    <TextInput placeholder='Username' />
+                    <TextInput placeholder='Username' onChangeText = {newText => changeUserName(newText)} />
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate("Home")} style={[styles.button, styles.loginButton]} >
-                    <Text style={[styles.text, styles.loginText]}> Login </Text>
+                <TouchableOpacity onPress={() => createAccount(userName)} style={[styles.button, styles.loginButton]} >
+                    <Text style={[styles.text, styles.loginText]}> Create Account </Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

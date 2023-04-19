@@ -25,6 +25,8 @@ import { getUID, setUID, removeItemValue } from './src/Memory/memoryAccess';
 import LoginScreen from './src/Screens/Login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import ShowTrip from './src/Maps/ShowTrip';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +49,11 @@ function App(): JSX.Element {
         <Stack.Screen name="Map"
           component={ShowMap}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen name="ShowTrip"
+          component={ShowTrip}
+          options={{ headerShown: false }}
+
         />
       </Stack.Navigator>
     </NavigationContainer>

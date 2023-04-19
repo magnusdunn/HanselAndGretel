@@ -27,6 +27,31 @@ const ShowTrip = ({ navigation }: { navigation: any }) => {
         // Need to get locations for markers from firebase
     }
 
+    useEffect(() => {
+        const watchID = Geolocation.watchPosition(
+            position => {
+                const newLocation = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    latitudeDelta: location.latitudeDelta,
+                    longitudeDelta: location.longitudeDelta,
+                };
+                setLocation(newLocation);
+                if (mapViewRef.current) {
+                    mapViewRef.current.animateToRegion(newLocation, 1000);
+                }
+            },
+            error => console.log(error),
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 1000,
+                distanceFilter: 50,
+            }
+        );
+    }, [location.latitudeDelta, location.longitudeDelta]);
+
+
     return (
         <View style={styles.container}>
             <View style={styles.mapContainer}>
@@ -36,9 +61,8 @@ const ShowTrip = ({ navigation }: { navigation: any }) => {
                     showsUserLocation={true}
                     initialRegion={location}
                     ref={mapViewRef}
-
                 >
-                    {renderMarkers()}
+                    {/* {renderMarkers()} */}
                 </MapView>
             </View>
             <View style={styles.home}>

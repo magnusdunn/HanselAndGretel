@@ -45,7 +45,7 @@ function App(): JSX.Element {
 
   }
 
-  const uid = getUser().then(async (data) => {
+  const uid = getUser().then((data) => {
     // console.log(data);
     return data;
   });
@@ -66,11 +66,9 @@ function App(): JSX.Element {
           component={FriendsScreen}
         />
         <Stack.Screen name="Map"
-          // component={ShowMap}
+          component={ShowMap}
           options={{ headerShown: false }}
-        >
-        {props => (<ShowMap {...props} userInfo = {uid} />)}
-        </Stack.Screen>
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,10 +1,10 @@
 import firestore from '@react-native-firebase/firestore';
 
-export default function createUser() {
+export default function createUser(userName) {
     const res = firestore()
     .collection('Users')
     .add({
-        test: 'I created you', 
+        UserName: userName, 
     })
     .then((sentDoc) => {
         console.log('created:', sentDoc.id);

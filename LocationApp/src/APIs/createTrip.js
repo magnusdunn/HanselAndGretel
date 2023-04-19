@@ -5,10 +5,10 @@ import firestore from '@react-native-firebase/firestore';
 // Params:
 // TripName: Name of trip
 // Will need to add other info as project progresses
-export default function pushNewTrip(tripName) {
+export default function pushNewTrip(uid, tripName) {
     firestore()
-    .collection('Test')
-    .doc("TestUser")
+    .collection('Users')
+    .doc(`${uid}`)
     .collection("TestTrip")
     .doc("UserPermissions")
     .set({

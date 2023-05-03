@@ -8,8 +8,9 @@ import {
     TextInput,
     TouchableOpacity,
     FlatList,
-    ListRenderItem
+    ListRenderItem,
 } from 'react-native';
+import {getUsers} from '../APIs/getUsers';
 //import { collection, query, where } from "firebase/firestore";
 
 //import TableItem from '../components/TableItem';
@@ -25,7 +26,7 @@ const data: ItemProps[] = [
     { title: "Ron Cytron", subtitle: 'roncytron' },
 ]
 
-const FriendsScreen = () => {
+const FriendsScreen = ({ navigation }: { navigation: any }) => {
 
     const [filterData, setFilterData] = useState<ItemProps[]>([]);
     const [masterData, setMasterData] = useState<ItemProps[]>([]);
@@ -47,15 +48,18 @@ const FriendsScreen = () => {
 
     const itemView: ListRenderItem<ItemProps> = ({ item }) => {
         return (
+            <TouchableOpacity onPress={() => (navigation.navigate('friendsTrip'))}>
             <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+                
                 <View style={{ flexDirection: 'column', width: '85%' }}>
                     <Text> {item.title} </Text>
                     <Text style={{ fontSize: 10, color: '#ccc' }}> {item.subtitle} </Text>
                 </View>
-                <TouchableOpacity onPress={() => { }}>
+                
                     {/* <Image source={require('../assets/images/enterarrow.png')} style={styles.arrow} /> */}
-                </TouchableOpacity>
+                
             </View>
+            </TouchableOpacity>
         )
     }
 
@@ -65,19 +69,19 @@ const FriendsScreen = () => {
         );
     }
 
-    /*const fetchUsers = () => {
-        db = Firestore.firestore()
-        usersRef = collection(db, "Users")
-        collectionRef.get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    setMasterData(doc.data())
-            });
-        });
-        .catch((error) => {
-            console.log('Error getting documents: ', error);
-        });
-    }*/
+    // const fetchUsers = () => {
+    //     db = Firestore.firestore()
+    //     usersRef = collection(db, "Users")
+    //     collectionRef.get()
+    //         .then((querySnapshot) => {
+    //             querySnapshot.forEach((doc) => {
+    //                 setMasterData(doc.data())
+    //         });
+    //     });
+    //     .catch((error) => {
+    //         console.log('Error getting documents: ', error);
+    //     });
+    // }
 
     useEffect(() => {
         //fetchUsers()
@@ -102,6 +106,7 @@ const FriendsScreen = () => {
                 <Text style={styles.header}> Friends </Text>
                 <FlatList
                     data={filterData}
+                    // onPress = {() => navigation.navigate('friendsTrip')}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={itemView}
                     ItemSeparatorComponent={itemSeparator}

@@ -21,17 +21,20 @@ import push from './src/APIs/PushAPI';
 import HomeScreen from './src/Screens/Home';
 import FriendsScreen from './src/Screens/FindFriend';
 import ShowMap from './src/Maps/ShowMap';
+import FriendsTrips from './src/Screens/friendTrips';
 import { getUID, setUID, removeItemValue } from './src/Memory/memoryAccess';
 import LoginScreen from './src/Screens/Login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ShowTrip from './src/Maps/ShowTrip';
+import { getLocations } from './src/APIs/getLocation';
 
 
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
-
+  // console.log(getLocations());
+  // removeItemValue('uid');
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -53,7 +56,10 @@ function App(): JSX.Element {
         <Stack.Screen name="ShowTrip"
           component={ShowTrip}
           options={{ headerShown: false }}
-
+        />
+         <Stack.Screen name="friendsTrip"
+          component={FriendsTrips}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

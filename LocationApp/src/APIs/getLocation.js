@@ -5,7 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 export async function getLocations(){
     var data = `{`
     await firestore()
-    .collection('Test/TestUser/TestTrip')
+    .collection('Users/CKPrJmkfW8KXZyANvxcP/TestTrip')
     .get()
     .then(collectionSnapshot => {
         // console.log('Number of Documents: ', collectionSnapshot.size);

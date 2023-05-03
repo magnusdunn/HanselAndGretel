@@ -87,9 +87,9 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
                     ItemSeparatorComponent={itemSeparator}
                 />
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.logout} >
+            {/* <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.logout} >
                 <Text style={[styles.text, { color: 'white' }]}> Logout </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
         </SafeAreaView>
     )

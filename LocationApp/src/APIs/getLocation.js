@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 //Todo: make function with params and find the rest of command options. THen extend to different usages 
 
 export async function getLocations(){
-    var data = `{`
+    var data = []
     await firestore()
     .collection('Users/CKPrJmkfW8KXZyANvxcP/TestTrip')
     .get()
@@ -15,12 +15,13 @@ export async function getLocations(){
                 // console.log(id);
                 var d = JSON.stringify(documentSnapshot.data());
                 // console.log(d);
-                if(id == `"UserPermissions"`){
-                    data += `${id}: ${d}}`;
-                }
-                else{
-                    data += `${id}: ${d},`;
-                }
+                data.push(`${id}: ${d}}`)
+                // if(id == `"UserPermissions"`){
+                //     data += `${id}: ${d}}`;
+                // }
+                // else{
+                //     data += `${id}: ${d},`;
+                // }
                 // console.log(data);
                 // console.log('Documaent Contents: ', documentSnapshot.id,
                 //     documentSnapshot.data());
@@ -30,7 +31,7 @@ export async function getLocations(){
         console.log(`Error: ${error}`)
     });
     // console.log(data);
-    const ret = JSON.parse(data);
-    console.log(ret);
-    return ret;
+    // const ret = JSON.parse(data);
+    // console.log(ret);
+    return data;
 };

@@ -27,6 +27,7 @@ export async function getLocations() {
         .catch(error => {
             console.log(`Error: ${error}`)
         });
+
     // console.log(data);
     // const ret = JSON.parse(data);
     // console.log(ret);

@@ -11,7 +11,7 @@ import firestore from '@react-native-firebase/firestore';
 export default function pushLocation(uid, lat, lon, time) {
     firestore()
     .collection(`Users`)
-    .doc('${uid}')
+    .doc(`${uid}`)
     .collection(`TestTrip`)
     .doc(`${time}`)
     .set({

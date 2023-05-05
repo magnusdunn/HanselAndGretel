@@ -10,6 +10,7 @@ TouchableOpacity,
 FlatList,
 ListRenderItem
 } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 //import { collection, query, where } from "firebase/firestore";
 //import { useNavigation } from '@react-navigation/native';
 
@@ -24,8 +25,32 @@ const trips = [
     {tripID: 100000, title: "Schnucks trip"}
 ]
 
-const FriendsTrips = () => {
-
+type props = {
+    ID: string;
+}
+async function getTrips(uid:string){
+    const doc = await firestore()
+        .collection('Users')
+        .doc(uid)
+        .get();
+        console.log(doc.data());
+        const collections = await doc.get();
+        collections.forEach(collection => {
+        console.log('Found subcollection with id:', collection.id);
+});
+        
+        // .catch(error => {
+        //     console.log(`Error: ${error}`)
+        // });
+        // console.log(data)
+        // const ret = JSON.parse(data.substring(0, data.length-1)+ "]");
+        // console.log(ret);
+        // return ret;
+}
+const FriendsTrips = (props:any) => {
+    const id = props.route.params.uid;
+    getTrips(id);
+    console.log(id);
     const itemSeparator = () => {
         return(
             <View style={{height: 0.5, width: '100%', backgroundColor: "black"}} />

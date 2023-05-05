@@ -56,6 +56,7 @@ function App(): JSX.Element {
         <Stack.Screen name="ShowTrip"
           component={ShowTrip}
           options={{ headerShown: false }}
+          initialParams={{ itemId: 42 }}
         />
         <Stack.Screen name="friendsTrip"
           component={FriendsTrips}

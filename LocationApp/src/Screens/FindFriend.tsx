@@ -50,7 +50,7 @@ const FriendsScreen = ({ navigation }: { navigation: any }) => {
 
     const itemView: ListRenderItem<ItemProps> = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => (navigation.navigate('friendsTrip', {uid: item.ID}))}>
+            <TouchableOpacity onPress={() => (navigation.navigate('ShowTrip', {uid: item.ID}))}>
             <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
                 
                 <View style={{ flexDirection: 'column', width: '85%' }}>

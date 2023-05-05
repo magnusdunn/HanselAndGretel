@@ -13,10 +13,13 @@ import { styles } from '../Context/Styles';
 import { getLocations } from '../APIs/getLocation'
 
 
+type props = {
+    ID: string;
+}
 
-
-const ShowTrip = ({ navigation }: { navigation: any }) => {
-
+const ShowTrip = ({ navigation }: { navigation: any }, props:any) => {
+    const id = props;
+    console.log("id", id);
     const mapViewRef = useRef<MapView | null>(null);
     const [location, setLocation] = useState({
         latitude: 0,

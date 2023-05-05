@@ -28,16 +28,16 @@ const trips = [
 type props = {
     ID: string;
 }
-async function getTrips(uid:string){
-    const doc = await firestore()
-        .collection('Users')
-        .doc(uid)
-        .get();
-        console.log(doc.data());
-        const collections = await doc.get();
-        collections.forEach(collection => {
-        console.log('Found subcollection with id:', collection.id);
-});
+// async function getTrips(uid:string){
+//     const doc = await firestore()
+//         .collection('Users')
+//         .doc(uid)
+//         .get();
+//         console.log(doc.data());
+//         const collections = await doc.get();
+//         collections.forEach(collection => {
+//         console.log('Found subcollection with id:', collection.id);
+// });
         
         // .catch(error => {
         //     console.log(`Error: ${error}`)
@@ -46,10 +46,10 @@ async function getTrips(uid:string){
         // const ret = JSON.parse(data.substring(0, data.length-1)+ "]");
         // console.log(ret);
         // return ret;
-}
+// }
 const FriendsTrips = (props:any) => {
     const id = props.route.params.uid;
-    getTrips(id);
+    // getTrips(id);
     console.log(id);
     const itemSeparator = () => {
         return(

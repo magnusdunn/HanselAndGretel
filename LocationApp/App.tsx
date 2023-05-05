@@ -34,7 +34,7 @@ const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   // console.log(getLocations());
-  // removeItemValue('uid');
+  // removeItemValue('uid');a
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -57,7 +57,7 @@ function App(): JSX.Element {
           component={ShowTrip}
           options={{ headerShown: false }}
         />
-         <Stack.Screen name="friendsTrip"
+        <Stack.Screen name="friendsTrip"
           component={FriendsTrips}
           options={{ headerShown: false }}
         />

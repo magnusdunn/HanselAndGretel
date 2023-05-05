@@ -10,34 +10,36 @@ import {
     FlatList,
     ListRenderItem,
 } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import { getUID } from '../Memory/memoryAccess';
 import {getUsers} from '../APIs/getUsers';
 //import { collection, query, where } from "firebase/firestore";
 
 //import TableItem from '../components/TableItem';
 
 interface ItemProps {
-    title: string;
-    subtitle: string
+    ID: string;
+    UserName: string;
 }
 
-const data: ItemProps[] = [
-    { title: "Joe Georger", subtitle: 'jgeorger' },
-    { title: "Magnus Dunn", subtitle: 'mdunn' },
-    { title: "Ron Cytron", subtitle: 'roncytron' },
-]
+// const data: ItemProps[] = [
+    // { title: "Joe Georger", subtitle: 'jgeorger' },
+    // { title: "Magnus Dunn", subtitle: 'mdunn' },
+    // { title: "Ron Cytron", subtitle: 'roncytron' },
+// ]
 
 const FriendsScreen = ({ navigation }: { navigation: any }) => {
 
     const [filterData, setFilterData] = useState<ItemProps[]>([]);
     const [masterData, setMasterData] = useState<ItemProps[]>([]);
     const [search, setSearch] = useState<string>("");
+    // const [uid, setUID] = useState("");
 
     const searchFilter = (text: string) => {
         if (text) {
             const newData = masterData.filter((item) => {
-                const title = item.title ? item.title.toUpperCase() : "".toUpperCase()
-                const subtitle = item.subtitle ? item.subtitle.toUpperCase() : "".toUpperCase()
-                return (title.indexOf(text.toUpperCase()) > -1) || (subtitle.indexOf(text.toUpperCase()) > -1)
+                const title = item.UserName ? item.UserName.toUpperCase() : "".toUpperCase()
+                return (title.indexOf(text.toUpperCase()) > -1)
             });
             setFilterData(newData)
         } else {
@@ -48,12 +50,11 @@ const FriendsScreen = ({ navigation }: { navigation: any }) => {
 
     const itemView: ListRenderItem<ItemProps> = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => (navigation.navigate('friendsTrip'))}>
+            <TouchableOpacity onPress={() => (navigation.navigate('friendsTrip', {uid: item.ID}))}>
             <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
                 
                 <View style={{ flexDirection: 'column', width: '85%' }}>
-                    <Text> {item.title} </Text>
-                    <Text style={{ fontSize: 10, color: '#ccc' }}> {item.subtitle} </Text>
+                    <Text> {item.UserName} </Text>
                 </View>
                 
                     {/* <Image source={require('../assets/images/enterarrow.png')} style={styles.arrow} /> */}
@@ -69,24 +70,56 @@ const FriendsScreen = ({ navigation }: { navigation: any }) => {
         );
     }
 
-    // const fetchUsers = () => {
-    //     db = Firestore.firestore()
-    //     usersRef = collection(db, "Users")
-    //     collectionRef.get()
-    //         .then((querySnapshot) => {
-    //             querySnapshot.forEach((doc) => {
-    //                 setMasterData(doc.data())
-    //         });
-    //     });
-    //     .catch((error) => {
-    //         console.log('Error getting documents: ', error);
-    //     });
-    // }
+    async function getUsers(uid: string) {
+        var ret:any = [];
+        await firestore()
+        .collection('Users')
+        .get()
+        .then(collectionSnapshot => {
+            // console.log('Number of Documents: ', collectionSnapshot.size);
+            collectionSnapshot.forEach(documentSnapshot => {
+                
+                var id = documentSnapshot.id; 
+                console.log(id, uid);
+                var d = JSON.stringify(documentSnapshot.data().UserName);
+                // console.log(d);
+
+                if(uid !== id){
+                    var part = JSON.parse(`{"ID" : "${id}", "UserName": ${d}}`);
+                    // console.log(part);
+                    ret.push(part);
+                }
+                // console.log(ret);
+                // console.log('Documaent Contents: ', documentSnapshot.id,
+                //     documentSnapshot.data());
+                });
+        })
+        .catch(error => {
+            console.log(`Error: ${error}`)
+        });
+        // console.log(data)
+        // const ret = JSON.parse(data.substring(0, data.length-1)+ "]");
+        // console.log(ret);
+        return ret;
+    }
+
+    async function fetchUsers() {
+        const id = await getUID()
+        const data = await getUsers(String(id));
+        console.log("in fecth", data);
+        
+        await setMasterData(data);
+        await setFilterData(data);
+        console.log("masterData", masterData)
+    }
 
     useEffect(() => {
-        //fetchUsers()
-        setFilterData(data)
-        setMasterData(data)
+        fetchUsers()
+        // setFilterData(data)
+
+        // setMasterData(data)
+        // getUsers();
+        // console.log("masterData", masterData)
     }, [])
 
     return (

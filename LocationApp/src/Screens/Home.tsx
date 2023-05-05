@@ -77,6 +77,9 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
             <TouchableOpacity onPress={() => navigation.navigate("Map")} style={styles.button} >
                 <Text style={[styles.text, { color: 'white' }]}> Start trip </Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Friends")} style={styles.button} >
+                <Text style={[styles.text, { color: 'white' }]}> Show trip </Text>
+            </TouchableOpacity>
             <View style={styles.divider} />
             <View style={styles.tripsContainer}>
                 <Text style={styles.header}> Past trips </Text>

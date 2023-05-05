@@ -10,6 +10,8 @@ import MapView,
     from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { styles } from '../Context/Styles';
+import { getLocations } from '../APIs/getLocation'
+
 
 
 
@@ -22,23 +24,52 @@ const ShowTrip = ({ navigation }: { navigation: any }) => {
         latitudeDelta: 0.0522,
         longitudeDelta: 0.0421,
     });
-
-    const renderMarkers = () => {
-        // Need to get locations for markers from firebase
-    }
-
+    const [markerLocations, setMarkerLocations] = useState([] as any[]);
+    const markerRef = useRef<(typeof MarkerAnimated | null)[]>([]);
+    const [lastMarkerTime, setLastMarkerTime] = useState(0);
+    const [followingUser, setFollowingUser] = useState(true);
+    const startInterval = () => {
+        const intervalId = setInterval(() => {
+            if (markerLocations.length > 0) {
+                const lastMarkerIndex = markerLocations.length - 1;
+            }
+        }, 2000);
+        return intervalId;
+    };
+    // const fetch = async () => {
+    //     const response = await getLocations();
+    //     await setMarkerLocations(response)
+    //     console.log(response)
+    // }
     useEffect(() => {
+
+        // fetch();
+        console.log("markerLoc", markerLocations)
         const watchID = Geolocation.watchPosition(
             position => {
-                const newLocation = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    latitudeDelta: location.latitudeDelta,
-                    longitudeDelta: location.longitudeDelta,
-                };
-                setLocation(newLocation);
-                if (mapViewRef.current) {
-                    mapViewRef.current.animateToRegion(newLocation, 1000);
+                const currentTime = Date.now();
+                if (currentTime - lastMarkerTime >= 5000) {
+                    console.log("before fetch")
+                    const fetch = async () => {
+                        const response = await getLocations();
+                        setMarkerLocations(response)
+                        // console.log(response)
+                    }
+                    console.log("time", lastMarkerTime)
+                    fetch();
+                    console.log("after fetch")
+                    const newLocation = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        latitudeDelta: location.latitudeDelta,
+                        longitudeDelta: location.longitudeDelta,
+                    };
+                    setLocation(newLocation);
+                    if (mapViewRef.current) {
+                        mapViewRef.current.animateToRegion(newLocation, 1000);
+                    }
+                    setLastMarkerTime(currentTime);
+                    console.log("time", lastMarkerTime)
                 }
             },
             error => console.log(error),
@@ -49,7 +80,35 @@ const ShowTrip = ({ navigation }: { navigation: any }) => {
                 distanceFilter: 50,
             }
         );
-    }, [location.latitudeDelta, location.longitudeDelta]);
+        console.log(location)
+
+        const intervalId = startInterval();
+
+        return () => {
+            Geolocation.clearWatch(watchID);
+            clearInterval(intervalId);
+        };
+
+    }, [lastMarkerTime, location.latitudeDelta, location.longitudeDelta, markerLocations]);
+
+    const renderMarkers = () => {
+        return markerLocations.map((marker, index) => {
+            return (
+                <MarkerAnimated
+                    key={index}
+                    ref={(ref: any) => markerRef.current[index] = ref}
+                    coordinate={marker}
+                />
+            );
+        });
+    }
+
+    const handleCenterPress = () => {
+        if (mapViewRef.current) {
+            mapViewRef.current.animateToRegion(location, 250);
+            setFollowingUser(true);
+        }
+    };
 
 
     return (
@@ -60,10 +119,15 @@ const ShowTrip = ({ navigation }: { navigation: any }) => {
                     style={styles.map}
                     showsUserLocation={true}
                     initialRegion={location}
+                    followsUserLocation={followingUser}
+                    onPanDrag={() => setFollowingUser(false)}
                     ref={mapViewRef}
                 >
-                    {/* {renderMarkers()} */}
+                    {renderMarkers()}
                 </MapView>
+            </View>
+            <View style={styles.centerButton}>
+                <Button title="Center" onPress={handleCenterPress} />
             </View>
             <View style={styles.home}>
                 <Button title="Home" onPress={() => navigation.navigate("Home")} />

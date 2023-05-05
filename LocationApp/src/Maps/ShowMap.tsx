@@ -16,7 +16,7 @@ import pushNewTrip from '../APIs/createTrip';
 
 type userProps = {
     uid: Promise<string | undefined>;
-  };
+};
 //   
 
 
@@ -29,7 +29,7 @@ const ShowMap = ({ navigation }: { navigation: any }, props: userProps) => {
             setUID(String(data));
             pushNewTrip(uid)
         })
-    },[])
+    }, [])
     console.log(uid);
     const [location, setLocation] = useState({
         latitude: 0,

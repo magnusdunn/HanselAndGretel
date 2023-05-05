@@ -67,20 +67,20 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.navBar}>
+            {/* <View style={styles.navBar}>
                 <Button title="Find Friends" onPress={() => navigation.navigate("Friends")} />
-            </View>
-            <View style={styles.textInputContainer}>
+            </View> */}
+            {/* <View style={styles.textInputContainer}>
                 <TextInput placeholder='Where to...' />
-            </View>
-            <View style={{ width: '100%', height: 80 }} />
+            </View> */}
+            {/* <View style={{ width: '100%', height: 80, paddingBottom: 20, flexDirection: 'column', justifyContent: 'center', borderWidth:1 }} /> */}
             <TouchableOpacity onPress={() => navigation.navigate("Map")} style={styles.button} >
                 <Text style={[styles.text, { color: 'white' }]}> Start trip </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Friends")} style={styles.button} >
+            <TouchableOpacity onPress={() => navigation.navigate("Friends")} style={[styles.button, {backgroundColor: 'green'}]} >
                 <Text style={[styles.text, { color: 'white' }]}> Show trip </Text>
             </TouchableOpacity>
-            <View style={styles.divider} />
+            {/* <View style={styles.divider} />
             <View style={styles.tripsContainer}>
                 <Text style={styles.header}> Past trips </Text>
                 <FlatList
@@ -89,7 +89,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
                     renderItem={itemView}
                     ItemSeparatorComponent={itemSeparator}
                 />
-            </View>
+            </View> */}
             {/* <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.logout} >
                 <Text style={[styles.text, { color: 'white' }]}> Logout </Text>
             </TouchableOpacity> */}
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
         padding: 50
     },
@@ -144,9 +145,13 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 10,
-        borderRadius: 10,
+        borderRadius: 25,
         marginBottom: 25,
-        backgroundColor: 'blue'
+        backgroundColor: 'blue',
+        height: 120,
+        width: 200,
+        flexDirection: 'column',
+        justifyContent: 'center'
     },
     text: {
         textAlign: 'center',

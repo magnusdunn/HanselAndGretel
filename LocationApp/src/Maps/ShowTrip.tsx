@@ -9,6 +9,7 @@ import MapView,
 { PROVIDER_GOOGLE, MarkerAnimated }
     from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import { useNavigation } from '@react-navigation/native';
 import { styles } from '../Context/Styles';
 import { getLocations } from '../APIs/getLocation'
 
@@ -17,9 +18,10 @@ type props = {
     ID: string;
 }
 
-const ShowTrip = ({ navigation }: { navigation: any }, props:any) => {
-    const id = props;
+const ShowTrip = (props:any) => {
+    const id = props.route.params.uid;
     console.log("id", id);
+    const navigation = useNavigation()
     const mapViewRef = useRef<MapView | null>(null);
     const [location, setLocation] = useState({
         latitude: 0,
@@ -54,7 +56,7 @@ const ShowTrip = ({ navigation }: { navigation: any }, props:any) => {
                 if (currentTime - lastMarkerTime >= 5000) {
                     console.log("before fetch")
                     const fetch = async () => {
-                        const response = await getLocations();
+                        const response = await getLocations(String(id));
                         setMarkerLocations(response)
                         // console.log(response)
                     }

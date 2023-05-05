@@ -2,10 +2,10 @@ import firestore from '@react-native-firebase/firestore';
 
 //Todo: make function with params and find the rest of command options. THen extend to different usages 
 
-export async function getLocations() {
+export async function getLocations(id) {
     var data = []
     await firestore()
-        .collection('Users/Jwr23vUTv1C60x5zh46A/TestTrip')
+        .collection(`Users/${id}/TestTrip`)
         .get()
         .then(collectionSnapshot => {
             // console.log('Number of Documents: ', collectionSnapshot.size);

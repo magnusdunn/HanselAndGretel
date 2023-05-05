@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
 
     },
     textInputContainer: {
-        width: '100%',
+        width: '80%',
         borderColor: '#ccc',
         borderWidth: 1,
         paddingBottom: 3,
